@@ -34,7 +34,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="H:\Projects\PacMethods3.cpp">
+    <ClCompile Include="..\PacMethods3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
