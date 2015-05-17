@@ -77,7 +77,9 @@
     <Text Include="H:\Projects\level_2.data.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Pac.cpp" />
+    <ClCompile Include="Pac.cpp">
+      <DeploymentContent>true</DeploymentContent>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
