@@ -4,7 +4,13 @@
 **************************************************************/
 // Allegro library
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
+#include <time.h>
+#include <string>
+
+
 
 //Screen resolution
 #define SCREEN_W 800
@@ -194,28 +200,28 @@ public:
 			{
 			case BLOCK:
 			{
-						  switch (direction)
-						  {
-						  case LEFT:
-							  posX = posX + 2;
-							  break;
-						  case RIGHT:
-							  posX = posX - 2;
-							  break;
-						  case UP:
-							  posY = posY + 2;
-							  break;
-						  case DOWN:
-							  posY = posY - 2;
-							  break;
-						  }
-						  direction = STAND; // Collision occurs, change direction to stand
-						  break;
+				switch (direction)
+				{
+				case LEFT:
+					posX = posX + 2;
+					break;
+				case RIGHT:
+					posX = posX - 2;
+					break;
+				case UP:
+					posY = posY + 2;
+					break;
+				case DOWN:
+					posY = posY - 2;
+					break;
+				}
+				direction = STAND; // Collision occurs, change direction to stand
+				break;
 			}
 			case FOOD:
 			{
-						 object.alive = false;
-						 break;
+				object.alive = false;
+				break;
 			}
 
 			}
@@ -298,7 +304,7 @@ public:
 		foodSprite = al_load_bitmap("food.png");
 		blockSprite = al_load_bitmap("block.png");
 
-		levelData = al_fopen("level_1.data", "r");
+		levelData = al_fopen("level_1.data.txt", "r");
 
 		// Loading and initializing Level & Game Objects
 		for (int row = 0; row < SCREEN_H / TILE_SIZE; row++)
@@ -376,6 +382,12 @@ public:
 
 int main()
 {
+
+	int count = 0;
+	int t = 70;
+	int clk = 0;
+
+
 	al_init(); // Start Allegro
 	ALLEGRO_DISPLAY *screen = NULL; // Main display
 	ALLEGRO_EVENT_QUEUE *event_queue = NULL; // Event queue to maintain events
@@ -385,6 +397,11 @@ int main()
 	screen = al_create_display(SCREEN_W, SCREEN_H);
 	event_queue = al_create_event_queue();
 	timer = al_create_timer(1.0 / FPS); // Timer set to tick at 60 frames per second
+
+	al_init_font_addon();	//Font addon initialized
+	al_init_ttf_addon();	//TrueType Font initialized
+	ALLEGRO_FONT *font24 = al_load_font("arial.ttf", 24, 0); // Set font to Arial, of size 24
+	ALLEGRO_FONT *font36 = al_load_font("arial.ttf", 36, 0); // Set font to Arial, of size 24
 
 	al_init_image_addon(); // Initialize Allegro image addon
 	al_install_keyboard(); // Initialize Allegro keyboard
@@ -414,22 +431,62 @@ int main()
 			al_clear_to_color(al_map_rgb(0, 0, 0)); // Clear display to black
 		}
 
+
 		//Event handlers
 		if (event.type == ALLEGRO_EVENT_TIMER)
 		{
+			count++;
+			clk++;
+
 			gameManager.UpdateLogic(); // Function call
+
 		}
 		else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
+			count++;
+			clk++;
+
 			break; // End game loop on closing display window
 		}
 		else if (event.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
+			count++;
+			clk++;
+
 			gameManager.KeyboardEventUpdate(event, true); // Update routine on key press
 		}
 		else if (event.type == ALLEGRO_EVENT_KEY_UP)
 		{
+			count++;
+			clk++;
+
 			gameManager.KeyboardEventUpdate(event, false); // Update routine on key release
+		}
+
+		if (clk >= 58) // Updates time every second
+		{
+			t--;
+			std::string str = "Time:  " + std::to_string(t);
+			char * cstr = new char[str.length() + 1];
+			std::strcpy(cstr, str.c_str());
+			al_draw_text(font24, al_map_rgb(255, 255, 255), 660, 520, 0, cstr);
+			clk = 0;
+
+		}
+		else // Displays Timer
+		{
+			std::string str = "Time:  " + std::to_string(t);
+			char * cstr = new char[str.length() + 1];
+			std::strcpy(cstr, str.c_str());
+			al_draw_text(font24, al_map_rgb(255, 255, 255), 660, 520, 0, cstr);
+
+		}
+
+
+		if (count >= 4118) // Runs the game until 70 seconds
+		{
+			exit(0);
+
 		}
 
 	} // End of Game Loop
