@@ -1,6 +1,6 @@
 /**************************************************************
 *    Pacman C++ Allegro5                                     *
-*    (c) 2015-ComputerMethods3     *
+*    (c) 2015-ComputerMethods3								 *
 **************************************************************/
 // Allegro library
 #include <allegro5/allegro.h>
@@ -9,9 +9,11 @@
 #include <allegro5/allegro_image.h>
 #include <time.h>
 #include <string>
+#include <iostream>
 
 
 
+using namespace std;
 //Screen resolution
 #define SCREEN_W 800
 #define SCREEN_H 600
@@ -34,7 +36,7 @@ bool keyboard[5] = { false, false, false, false, false };
 // Types of objects in the game
 enum ObjectType { FOOD, BLOCK };
 
-
+int score = 0;
 // Character Object Class
 class CharacterObject
 {
@@ -55,6 +57,7 @@ public:
 	int frameDelayCounter; // Frame delay counter
 	ALLEGRO_BITMAP *image; // ALLEGRO_BITMAP to hold the sprite sheet
 
+	int score = 0;
 	// Class constructor
 	CharacterObject()
 	{
@@ -205,6 +208,7 @@ public:
 				case LEFT:
 					posX = posX + 2;
 					break;
+					score++;
 				case RIGHT:
 					posX = posX - 2;
 					break;
@@ -221,6 +225,7 @@ public:
 			case FOOD:
 			{
 				object.alive = false;
+
 				break;
 			}
 
@@ -287,16 +292,16 @@ public:
 	int gameObjectCount; // Variable to hold total count of Game Object's in a level
 	int levelGrid[SCREEN_H / TILE_SIZE][SCREEN_W / TILE_SIZE]; // 2 dimensional array to hold level data from a external file
 
-	// Method to Initialize Level
+	// Method to Initialize Level 
 	void InitLevel()
 	{
 		Pacman.image = al_load_bitmap("Pacman_Sprite_Sheet.PNG"); // Loading pacman sprite sheet
 		Pacman.posX = SCREEN_W / 2; // Starting x-coordinate of pacman on the screen
-		Pacman.posY = SCREEN_H / 2; // Starting y-coordinate of pacman on the screen
+		Pacman.posY = SCREEN_H / 1.45; // Starting y-coordinate of pacman on the screen
 		Pacman.speed = 2.0; // Movement speed of pacman
 		Pacman.totalFrame = 2; // Total number of pacman animation frames in the sprite sheet
 		Pacman.frameDelay = 7; // Speed of pacman animation
-		Pacman.InitObject(); // Initialize pacman
+		Pacman.InitObject(); // Initialize pacman 
 
 		gameObject = new GameObject[(SCREEN_W / TILE_SIZE) * (SCREEN_H / TILE_SIZE)];
 		gameObjectCount = 0;
@@ -304,7 +309,7 @@ public:
 		foodSprite = al_load_bitmap("food.png");
 		blockSprite = al_load_bitmap("block.png");
 
-		levelData = al_fopen("level_1.data.txt", "r");
+		levelData = al_fopen("level_2.data.txt", "r");
 
 		// Loading and initializing Level & Game Objects
 		for (int row = 0; row < SCREEN_H / TILE_SIZE; row++)
@@ -333,10 +338,31 @@ public:
 
 	void DrawLevel(ALLEGRO_DISPLAY *screen)
 	{
+		score = 0;
 		// Draw level objects
 		for (int loopCounter = 0; loopCounter < gameObjectCount; loopCounter++)
 		{
+
 			gameObject[loopCounter].DrawObject();
+
+
+			switch (gameObject[loopCounter].type)
+			{
+			case FOOD:
+			{
+				//gameObject[loopCounter].alive = false;
+				bool f;
+				f = gameObject[loopCounter].alive;
+				if (f == false)
+				{
+					score++;
+					//cout << score << endl;
+				}
+
+				break;
+			}
+			}
+
 		}
 
 		// Draw pacman Character Object
@@ -400,8 +426,8 @@ int main()
 
 	al_init_font_addon();	//Font addon initialized
 	al_init_ttf_addon();	//TrueType Font initialized
-	ALLEGRO_FONT *font24 = al_load_font("arial.ttf", 24, 0); // Set font to Arial, of size 24
-	ALLEGRO_FONT *font36 = al_load_font("arial.ttf", 36, 0); // Set font to Arial, of size 24
+	ALLEGRO_FONT *font24 = al_load_font("COPRGTB.ttf", 24, 0); // Set font to Arial, of size 24
+	ALLEGRO_FONT *font36 = al_load_font("COPRGTB.ttf", 36, 0); // Set font to Arial, of size 24
 
 	al_init_image_addon(); // Initialize Allegro image addon
 	al_install_keyboard(); // Initialize Allegro keyboard
@@ -463,30 +489,65 @@ int main()
 			gameManager.KeyboardEventUpdate(event, false); // Update routine on key release
 		}
 
-		if (clk >= 58) // Updates time every second
+		if (clk >= 58 && count < 4118 && score < 145) // Updates time every second
 		{
 			t--;
-			std::string str = "Time:  " + std::to_string(t);
+			string str = "TIME:  " + std::to_string(t);
 			char * cstr = new char[str.length() + 1];
-			std::strcpy(cstr, str.c_str());
-			al_draw_text(font24, al_map_rgb(255, 255, 255), 660, 520, 0, cstr);
+			strcpy(cstr, str.c_str());
+			al_draw_text(font24, al_map_rgb(255, 255, 0), 660, 575, 0, cstr);
 			clk = 0;
 
+			std::string scoreDisp = "SCORE:  " + std::to_string(score);
+			char * scoreStr = new char[scoreDisp.length() + 1];
+			std::strcpy(scoreStr, scoreDisp.c_str());
+			al_draw_text(font24, al_map_rgb(255, 255, 0), 450, 575, 0, scoreStr);
 		}
 		else // Displays Timer
 		{
-			std::string str = "Time:  " + std::to_string(t);
+			std::string str = "TIME:  " + std::to_string(t);
 			char * cstr = new char[str.length() + 1];
 			std::strcpy(cstr, str.c_str());
-			al_draw_text(font24, al_map_rgb(255, 255, 255), 660, 520, 0, cstr);
+			al_draw_text(font24, al_map_rgb(255, 255, 0), 660, 575, 0, cstr);
+
+			std::string scoreDisp = "SCORE:  " + std::to_string(score);
+			char * scoreStr = new char[scoreDisp.length() + 1];
+			std::strcpy(scoreStr, scoreDisp.c_str());
+			al_draw_text(font24, al_map_rgb(255, 255, 0), 450, 575, 0, scoreStr);
 
 		}
 
 
-		if (count >= 4118) // Runs the game until 70 seconds
+		if (count >= 4118 || score == 145) //Runs the game until 70 seconds 
 		{
-			exit(0);
+			if (score == 145)
+			{
+				std::string str = "WELL DONE M8!!";
+				char * cstr = new char[str.length() + 1];
+				std::strcpy(cstr, str.c_str());
+				std::string str1 = "PRESS ESCAPE TO EXIT";
+				char * cstr1 = new char[str1.length() + 1];
+				std::strcpy(cstr1, str1.c_str());
+				al_draw_text(font24, al_map_rgb(255, 255, 0), 250, 350, 0, cstr1);
+				al_draw_text(font24, al_map_rgb(255, 255, 0), 300, 250, 0, cstr);
+				al_flip_display(); // Display backbuffer on to the main screen
+				al_clear_to_color(al_map_rgb(0, 0, 0)); // Clear display to black
 
+			}
+			else
+			{
+				std::string str = "GAME OVER M8!!";
+				char * cstr = new char[str.length() + 1];
+				std::strcpy(cstr, str.c_str());
+
+				std::string str1 = "PRESS ESCAPE TO EXIT";
+				char * cstr1 = new char[str1.length() + 1];
+				std::strcpy(cstr1, str1.c_str());
+				al_draw_text(font24, al_map_rgb(255, 255, 0), 250, 350, 0, cstr1);
+				al_draw_text(font24, al_map_rgb(255, 255, 0), 300, 250, 0, cstr);
+				al_flip_display(); // Display backbuffer on to the main screen
+				al_clear_to_color(al_map_rgb(0, 0, 0)); // Clear display to black
+			}
 		}
 
 	} // End of Game Loop
