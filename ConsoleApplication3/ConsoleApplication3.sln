@@ -1,9 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication3", "ConsoleApplication3.vcxproj", "{00191300-1B49-43DA-8F69-FF05FB2EF7D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{85F100B4-5A13-40E6-A951-DC599BD9D76A}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\PacMethods3\arial.ttf = ..\..\PacMethods3\arial.ttf
+		..\..\PacMethods3\arialbd.ttf = ..\..\PacMethods3\arialbd.ttf
+		..\..\PacMethods3\arialbi.ttf = ..\..\PacMethods3\arialbi.ttf
+		..\..\PacMethods3\ariali.ttf = ..\..\PacMethods3\ariali.ttf
+		..\..\PacMethods3\ARIALN.TTF = ..\..\PacMethods3\ARIALN.TTF
+		..\..\PacMethods3\ARIALNB.TTF = ..\..\PacMethods3\ARIALNB.TTF
+		..\..\PacMethods3\ARIALNBI.TTF = ..\..\PacMethods3\ARIALNBI.TTF
+		..\..\PacMethods3\ARIALNI.TTF = ..\..\PacMethods3\ARIALNI.TTF
+		..\..\PacMethods3\ariblk.ttf = ..\..\PacMethods3\ariblk.ttf
+		..\..\PacMethods3\block.png = ..\..\PacMethods3\block.png
+		..\..\PacMethods3\food.png = ..\..\PacMethods3\food.png
+		..\..\PacMethods3\level_1.data.txt = ..\..\PacMethods3\level_1.data.txt
+		..\..\PacMethods3\level_176.data.txt = ..\..\PacMethods3\level_176.data.txt
+		..\..\PacMethods3\Pacman_Sprite_Sheet.png = ..\..\PacMethods3\Pacman_Sprite_Sheet.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
